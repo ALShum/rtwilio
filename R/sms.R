@@ -9,7 +9,7 @@ base_url_sms = function(account_sid, JSON = TRUE) {
 sms = function(
   message, 
   to, 
-  from = "+12512434541", 
+  from = Sys.getenv("twilio_account_number"), 
   media_url = NULL, 
   account_sid = Sys.getenv("twilio_account_sid"), 
   account_auth = Sys.getenv("twilio_account_auth"),
