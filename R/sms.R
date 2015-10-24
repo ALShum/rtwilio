@@ -86,8 +86,6 @@ sms_request_body = function(
   )
 }
 
-
-
 sms_parse = function(resp) {
   content = httr::content(resp)
   resource_uri = content$uri

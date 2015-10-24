@@ -40,6 +40,10 @@ message_list_parse = function(resp, message_sid = NULL) {
   content = httr::content(resp, as = "text")
   json = jsonlite::fromJSON(content)
 
+  if(resp$status_code > 399) {
+    return(paste0(json$status, ": ", json$message))
+  }
+
   if(is.null(message_sid)) return(json$messages)
   else {
     col_names = paste(names(json), collapse = ";")
@@ -119,7 +123,7 @@ message_delete_request = function(
 }
 
 message_delete_parse = function(resp, message_sid = NULL) {
-  if(resp$status_code < 400) return(paste0(resp$status_code, ": ", message_sid, " deleted.")) 
+  if(resp$status_code < 400) return(paste0(resp$status_code, ", message: ", message_sid, " deleted.")) 
 
   content = httr::content(resp, as = "text")
   json = jsonlite::fromJSON(content)
