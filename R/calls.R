@@ -1,8 +1,12 @@
-base_url_calls = function(account_sid, JSON = TRUE) {
+base_url_calls = function(account_sid, call_sid = NULL, JSON = TRUE) {
   calls = "Calls"
+  if(!is.null(call_sid)) {
+    calls = paste(calls, call_sid, sep = "/")
+  }
   if(JSON) {
     calls = paste0(calls, ".json")
   }
+
   paste(base_url(account_sid), calls, sep = "/")
 }
 
@@ -89,7 +93,6 @@ call_request = function(
     config = httr::authenticate(account_sid, account_auth)
   )
 
-
   resp
 }
 
@@ -131,4 +134,22 @@ call_request_body = function(
     Timeout = timeout,
     Record = record
   )
+}
+
+call_list_request = function(
+  call_sid = NULL,
+  account_sid = Sys.getenv("twilio_account_sid"), 
+  account_auth = Sys.getenv("twilio_account_auth")
+) {
+
+  resp = httr::GET(
+    url = base_url_calls(account_sid, call_sid),
+    config = httr::authenticate(account_sid, account_auth)
+  )
+
+  resp
+}
+
+call_list_parse = function(resp) {
+  
 }
