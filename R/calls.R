@@ -151,5 +151,8 @@ call_list_request = function(
 }
 
 call_list_parse = function(resp) {
-  
+  content = httr::content(resp, as = "text")
+  json = jsonlite::fromJSON(content)
+
+  json$calls ## need to check for errors
 }
